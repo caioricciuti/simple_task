@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %} Public Task Dashboard - {{user.username}} {% endblock title %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+<div class="container" style="margin-top: 10px;font-size: 0.8rem">
+    <div class="row">
+        <div class="col-sm-6">
+          <div style="height: 170px; margin:10px" class="card">
+            <div class="card-body">
+              <h5 class="card-title">Hello, <strong>{{user.username}}!</strong></h5>
+              <p class="card-text">Today is <strong>{% now "jS F Y" %}</strong> and it is {% now "H:i" %}!</p>
+              <a href="{% url 'task-home' %}" class="btn btn-primary">Private Tasks</a>
+              <a href="{% url 'task-create' %}" class="btn btn-success">New Task</a>
+              <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div  style="height: 170px; margin:10px" class="card">
+            <div class="card-body">
+              <h5 class="card-title">Public Task dashboard:</h5>
+              <p class="card-text danger">Here you can find all public tasks, if you want you can see how you can help someone in need! </p>
+              <p class="card-text danger"> This is a common area so please be respectful and reponsable. Thanks!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <div style="margin-top: 15px;" class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">All public tasks:</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+      <div class="chart-area table-responsive">
+        <table class="table table-striped">
+      <thead class="table-dark">
+      <tr>
+          <th scope="col" data-toggle="tooltip" data-placement="top" title="Task importance"><i class="fas fa-bookmark"></i></th>
+          <th scope="col"></th>
+          <th scope="col">Task</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Responsable</th>
+          <th scope="col">Status</th>
+          <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
+          <th scope="col"></th>
+      </tr>
+      </thead>
+       <tbody>
+        {% for task in object_list %}
+      <tr>
+          {% if task.importance == "H" %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
+          {% endif %}
+          {% if task.importance == "M" %}
+          <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
+          {% endif %}
+          {% if task.importance == "L" %}
+          <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
+          {% endif %}
+          {% if task.author == user %}
+          <th scope="row"><a href="{{task.id}}/update"><i class="fas fa-edit"></i></a></th>
+          {%else%}
+          <td data-toggle="tooltip" data-placement="top" title="Only the owner can update, you can comment though!"><i style="color:#CACACA " class="fas fa-edit"></i></i></td>
+          {% endif %}
+          <td><a href="{{task.id}}">{{task.title}}</a></td>
+          <td>{{task.due_date|date:"F d, Y"}}</td>
+          <td>{{task.responsable}}</td>
+          {% if task.Status == "P" %}
+          <td><i data-toggle="tooltip" data-placement="top" title="On progress" style="color: blue; font-size: 1.2rem;" class="fas fa-hourglass-half"></i></td>
+          {% endif %}
+          {% if task.Status == "D" %}
+          <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
+          {% endif %}
+          {% if task.Status == "N" %}
+          <td><i data-toggle="tooltip" data-placement="top" title="To-do, not started" style="color: orange; font-size: 1.2rem;" class="fas fa-clock"></i></td>
+          {% endif %}
+          {% if task.departament == 'M' %}
+          <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
+          {% endif %}
+          {% if task.departament == 'D' %}
+          <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
+          {% endif %}
+          {% if task.departament == 'H' %}
+          <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
+          {% endif %}
+           {% if task.departament == 'L' %}
+          <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
+          {% endif %}
+           {% if task.departament == 'F' %}
+          <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
+          {% endif %}
+           {% if task.departament == 'O' %}
+          <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
+          {% endif %}
+          {% if task.author == user %}
+          <td><a href="{{task.id}}/delete"><i style="color: red;" class="fas fa-trash-alt"></i></a></td>
+          {%else%}
+          <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
+          {% endif %}
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include "shared/footer.html" %}
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} Delete: {{task.title}} {% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+<section style="margin-top: 20px;" class="container ">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-md-center ">
+            <div class="card text-center text-DARK bg-LIGHT">
+                <div class="card-header">
+                Confirm delete of: <strong>Comment in task</strong>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Are you sure you want to delete <strong style="color: red;">your comment?</strong></h5>
+                    <p class="card-text">This action can't be undone.</p>
+                    <a href="{% url 'task-detail' comment.task.pk %}" class="btn btn-success btn-user">Cancel</a>
+                    <button style="margin: 10px" class="btn btn-danger btn-md" type="submit">Delete</button>
+                    </div>
+                <div  class="card-footer text-muted">
+                <p style="color: RED;"> Author: <strong>{{comment.author}}</strong></p>
+                </div>
+                <div  class="card-footer text-muted">
+                    <a href="mailto:support@simpletask.com" target="_blank" rel="noopener noreferrer">I need help</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+{% include "shared/footer.html" %}
+{% endblock content %}

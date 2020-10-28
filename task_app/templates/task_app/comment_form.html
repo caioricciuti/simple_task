@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %} New comment on: {{comments.title}}  {% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+    <div style="margin-top: -20px;" class="container">    
+        <div style="margin: 0 0 0 0;" >
+         <div class="p-5">
+              <form method="POST">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+                <p>User: {{user.username}}</p>
+                <p>Task:{{object.comments.id}}</p>
+                <p>{{comment.task.pk}}</p>
+
+                {% if comment.task.pk != null %}
+                <a href="{% url 'task-detail' comment.task.pk %}" class="btn btn-danger btn-user">Cancel</a>
+                {% else %}
+                <a href="{% url 'task-detail' view.kwargs.pk %}" class="btn btn-danger btn-user">Cancel</a>
+                {% endif %}
+                <button class="btn btn-success btn-user" type="submit">Post it!</button>  
+            
+              </form>
+              <hr>
+         </div>
+        </div>
+    </div>
+{% include "shared/footer.html" %}
+{% endblock content %}

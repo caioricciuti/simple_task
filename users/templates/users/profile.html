@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% block title %} Profile - {{user.username}}  {% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+<style>
+
+body{
+    background: -webkit-linear-gradient(left, #9f9bd8, #00c6ff);
+}
+.emp-profile{
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 3rem;
+    background: #fff;
+}
+.profile-img{
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    
+}
+.profile-img img{
+    width: 50%;
+    border-radius: 30px;
+    height: 50%;
+}
+.profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 50%;
+    border: none;
+    height: 100%;
+    border-radius: 30px;
+    font-size: 15px;
+    background: #CACACA;
+    opacity: 0.2;
+    
+}
+.file .btn:hover{
+    opacity: 0;
+}
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+.profile-head h5{
+    color: #333;
+}
+.profile-head h6{
+    color: #0062cc;
+}
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+.proile-rating{
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+}
+.proile-rating span{
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+}
+.profile-head .nav-tabs{
+    margin-bottom:5%;
+}
+.profile-head .nav-tabs .nav-link{
+    font-weight:600;
+    border: none;
+}
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid #0062cc;
+}
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
+}
+.profile-work p{
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+}
+.profile-work a{
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+}
+.profile-work ul{
+    list-style: none;
+}
+.profile-tab label{
+    font-weight: 600;
+}
+.profile-tab p{
+    font-weight: 600;
+    color: #0062cc;
+}
+</style>
+
+<div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-4 profile-img ">
+                <div class="profile-img">
+                    <img src="{{user.profile.image.url}}" alt="profile image"/>
+                 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                            <h5>
+                                {{user.username}}
+                            </h5>
+                            <h6>
+                                <a href="mailto:{{user.email}}">{{user.email}}</a>
+                            </h6>
+                            
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Log</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="signature-tab" data-toggle="tab" href="#signature" role="tab" aria-controls="signature" aria-selected="false">Signature</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="text-align: center;" class="col-md-4">
+
+                        <small >You're <strong>beautiful! </strong><i class="far fa-smile-wink"></i></small><br>
+                        <a href="{% url 'profileupdate' %}" class="profile-edit-btn"> Edit profile </a>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>User Id</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{user.pk}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{user.first_name}} {{user.last_name}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{user.email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Phone</label>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="link" href="tel:{{user.profile.phone_number}}">{{user.profile.phone_number}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label>Actions</label>
+                          </div>
+                          <div class="col-md-6">
+                              <p>Log action goes here from django.contrib.admin.models import LogEntry</p>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade"  id="signature" role="tabpanel" aria-labelledby="signature-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                <label class="form-check-label" for="exampleRadios1">
+                                  Free User
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>0 € per month</p>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+                                <label class="form-check-label" for="exampleRadios3">
+                                  Gold Membership
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>4,99€ per month</p>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+                                <label class="form-check-label" for="exampleRadios3">
+                                   Platinum Membership
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>9,99€ per month</p>
+                            </div>
+                            <div class="col-md-6">
+                               
+                                <label >
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'account_delete' %}" class="btn btn-danger">DELETE ACCOUNT</a>
+                                <a href="{% url 'password_reset' %}" class="btn btn-dark">Reset password</a>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+     </div>        
+</div>
+
+
+
+
+
+
+
+
+{% include "shared/footer.html" %}
+{% endblock content %}

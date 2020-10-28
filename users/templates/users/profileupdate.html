@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %} Updating {{user.username}}'s Profile {% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+<style>
+
+body{
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+.emp-profile{
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff;
+}
+</style>
+
+<div class="container emp-profile">
+    <legend class="border-bottom mb-10">Updating <strong>{{user.username}}'s</strong> profile:</legend>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{u_form|crispy}}
+        {{p_form|crispy}}
+        <hr>
+        <a href="{% url 'profile' %}" class="btn btn-danger">Cancel</a>          
+        <button type="submit" class="btn btn-primary right">Update info!</button> 
+    </form> 
+  
+</div>
+
+
+{% include "shared/footer.html" %}
+{% endblock content %}

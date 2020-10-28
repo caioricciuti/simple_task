@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} {{task.title}} Task {% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+    <div style="margin-top: -20px;" class="container">    
+        <div style="margin: 0 0 0 0;" >
+         <div class="p-5">
+              <form method="POST" class="user">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+                {% if task.pk == null %}
+                <a href="{% url 'task-home' %}" class="btn btn-danger btn-user">Cancel</a>
+                {% else %}
+                <a href="{% url 'task-detail' task.pk %}" class="btn btn-danger btn-user">Cancel</a> 
+                {% endif %}
+                <button class="btn btn-success btn-user" type="submit">Let's GO!</button> 
+              </form>
+              <hr>
+         </div>
+        </div>
+    </div>
+{% include "shared/footer.html" %}
+{% endblock content %}

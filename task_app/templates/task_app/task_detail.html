@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %} Detail - {{object.title}}  {% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+
+<div class="container">
+                         
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Main</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Details</a>
+        </li>       
+        <li class="nav-item">
+           <a class="nav-link"href="{% url 'task-home' %}"><i class="fas fa-chart-line"></i> Dashboard</a>
+       </li>
+    </ul>
+     <div class="col-md-8">
+         <div class="tab-content profile-tab" id="myTabContent">
+             <div style="margin-top: 10px;" class="tab-pane fade show" id="home" role="tabpanel" aria-labelledby="home-tab">
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Task:</label>
+                     </div>
+                     <div class="col-md-6">
+                         <p>{{object.title}}</p>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Author:</label>
+                     </div>
+                     <div class="col-md-6">
+                         <p>{{object.author}}</p>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Responsable</label>
+                     </div>
+                     <div class="col-md-6">
+                         <p>{{object.responsable}}</p>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Due date:</label>
+                     </div>
+                     <div class="col-md-6">
+                         <p>{{object.due_date|date:"F d, Y"}}</p>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Created in:</label>
+                     </div>
+                     <div class="col-md-6">
+                         <p>{{object.date_created|date:"F d, Y"}}</p>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Importance:</label>
+                     </div>
+                     {% if object.importance == 'H' %}
+                     <div class="col-md-6">
+                         <p>High</p>
+                     </div>
+                     {% endif %}
+                     {% if object.importance == 'M' %}
+                     <div class="col-md-6">
+                         <p>Medium</p>
+                     </div>
+                     {% endif %}
+                     {% if object.importance == 'L' %}
+                     <div class="col-md-6">
+                         <p>Low</p>
+                     </div>
+                     {% endif %}
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Status:</label>
+                     </div>
+                     {% if object.Status == 'D' %}
+                     <div class="col-md-6">
+                         <p>Done</p>
+                     </div>
+                     {% endif %}
+                     {% if object.Status == 'N' %}
+                     <div class="col-md-6">
+                         <p>Not-done</p>
+                     </div>
+                     {% endif %}
+                     {% if object.Status == 'P' %}
+                     <div class="col-md-6">
+                         <p>Doing</p>
+                     </div>
+                     {% endif %}
+                 </div>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <label>Departament:</label>
+                     </div>
+                     {% if object.departament == 'D' %}
+                     <div class="col-md-6">
+                         <p>Development</p>
+                     </div>
+                     {% endif %}
+                     {% if object.departament == 'M' %}
+                     <div class="col-md-6">
+                         <p>Marketing</p>
+                     </div>
+                     {% endif %}
+                     {% if object.departament == 'H' %}
+                     <div class="col-md-6">
+                         <p>Human Resource</p>
+                     </div>
+                     {% endif %}
+                     {% if object.departament == 'L' %}
+                     <div class="col-md-6">
+                         <p>Legal</p>
+                     </div>
+                     {% endif %}
+                     {% if object.departament == 'F' %}
+                     <div class="col-md-6">
+                         <p>Finances</p>
+                     </div>
+                     {% endif %}
+                     {% if object.departament == 'O' %}
+                     <div class="col-md-6">
+                         <p>Other</p>
+                     </div>
+                     {% endif %}
+                 </div>    
+
+             </div>
+            
+             <div style="margin-top: 10px;margin-bottom: 10px;" class="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row">
+                    <div class="col-md-0">
+                        <h3>{{object.title}}</h3>
+                    </div>
+                </div>
+               <div class="row">
+                   <div class="col-md-0">
+                       <p>{{object.content|safe}}</p>
+                   </div>
+               </div>
+                <hr>
+                 <div class="">
+                <h4 class="text-left">Comments <a href="{% url 'task-comment' task.id %}" class="btn btn-primary float-right">New comment</a></h4>        
+                    </div>
+                {% for comment in task.comments.all %}
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md">
+                                <p>
+                                    <a style="font-size: 1.3rem; margin-bottom: 2px;" class="float-left" href="#"><strong>{{comment.author}}</strong></a>
+                                    {% if request.user == comment.author%}
+                                    <a style="color:red;margin-bottom: 2px;" class="float-right" href="{% url 'task-comment-delete' comment.id %}"><strong><i class="fas fa-trash"></i></strong></a>
+                                    <a style="margin-right: 10px;margin-bottom: 2px;" class="float-right" href="{% url 'task-comment-update' comment.id %}"><strong><i class="fas fa-edit"></i></strong></a>
+                                    {% endif %}    
+                               </p>
+                               <div class="clearfix"></div>
+                               <hr>
+                                <p>{{comment.body|safe}}</p>
+                                <hr>
+                                <small class="text-muted">{{comment.updated}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+      </div>
+             
+      {% if object.author == user %}
+             <div style="margin-bottom:15px">
+                 <div class="row">
+                     <div style="margin-top: 10px;" class="col-md-6">
+                         <a href="update"class="btn btn-primary">Update Task</a>
+                         <a href="delete" class="btn btn-danger">Delete Task</a>
+                    {% endif %}
+                     </div>
+                 </div>
+               </div>
+         </div>
+       </div>
+     </div>        
+</div>
+
+
+
+{% include "shared/footer.html" %}
+{% endblock content %}

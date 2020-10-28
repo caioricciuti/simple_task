@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Welcome {% endblock title %}
+{% block content %}
+{% include "shared/nav.html" %}
+
+
+         <div class="container mt-3 mb-5" id="about">
+                   <h1 class="text-center py-4">Today is a good day to Start!</h1>
+                  
+                  <div class="row text-center mt-5">
+                   <div class="col-md-3">
+                    <div class="card shadow">
+                      <div class="card-body" style="height: 300px">
+                      <div class="py-3 text-center"> <i class="fas fa-rocket card-img-top fa-4x text-primary" aria-hidden="true"></i></div>
+                      <div class="card-body">
+                        <h4 class="card-title">Easy</h4>
+                        <p class="card-text">Just a few clicks to create a new task and get things <strong>DONE!</strong></p>
+                       </div>
+                      </div>
+                    </div>
+                    </div>
+                      <div class="col-md-3">
+                     <div class="card shadow">
+                      <div class="card-body" style="height: 300px">
+                       <div class="py-3 text-center"><i class="fas fa-feather card-img-top fa-4x text-primary" aria-hidden="true"></i></div>
+                      <div class="card-body">
+                        <h4 class="card-title">Light</h4>
+                        <p class="card-text">We avoid needless features, we want you to have everything you need in <strong>FAST!</strong>!</p>
+                       </div>
+                      </div>
+                    </div>
+                    </div>
+                      <div class="col-md-3">
+                     <div class="card shadow">
+                      <div class="card-body" style="height: 300px">
+                      <div class="py-3 text-center"><i class="fa fa-tablet card-img-top fa-4x text-primary" aria-hidden="true"></i></div>
+                     
+                      <div class="card-body" >
+                        <h4 class="card-title"> It's yours </h4>
+                        <p class="card-text">Our service was created for you, and that means we'll always be here <strong>FOR YOU!</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-3">
+                     <div class="card shadow">
+                      <div class="card-body" style="height: 300px">
+                      <div class="py-3 text-center"><i class="fas fa-charging-station card-img-top fa-4x text-primary" aria-hidden="true"></i>
+                     </div>
+                      <div class="card-body">
+                        <h4 class="card-title">Powerfull</h4>
+                        <p class="card-text">Create private or public tasks, and always <strong>SAVE TIME!</strong>!</p>
+                        </div>
+                      </div>
+
+                    </div>
+                    </div>
+                   
+                  </div>
+                </div>
+
+            <section class="bg-dark" style="margin-top: 15px;" >        
+              <div class="container text-center text-light">
+                 <p class="pt-5 pb-2 h4 text-monospace">Speed up your daily tasks!</p>
+                <div class="row"style="margin-bottom:50px;">
+                  <div class="mx-auto" style="width: 600px;">
+                    <p class="text-center">Everything you need is here, create tasks and keep a diary about your victories! The time has come for you to be sure that everything was done with quality and at the right time! </p>
+                    <a href="{% url 'register'%}" class="btn btn-lg btn-light btn-circle my-4 mr-3"> <strong>Start now!</strong> </a>
+                       
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </section>     
+              <!-- price plan starts -->
+             <div class="container mt-5">
+                <div class="row py-5">
+                  <div class="col-md-4">
+                    <strong class="d-inline-block mb-2 text-primary">Price table</strong>
+                    <h3 class="mb-0">
+                      Relax, we have a free plan!
+                   </h3>
+                   <p class="lead text-muted">We don't sell your data, for us, you're our client. To keep everything private we need charge a small fee...</p>
+                    <a href="{% url 'register' %}" class="btn btn-lg btn-primary btn-circle">Get started</a>
+                  </div>
+                  <div class="col-md-8">
+                     <div class="card-deck mb-3 text-center">
+                  <div class="card mb-4 shadow">
+                    
+                    <div class="card-body">
+                      <h3 class="my-3 font-weight-norma text-uppercase">Free</h3>
+                     
+                      <span class="d-block  text-primary">
+                        <span class="align-top">€</span>
+                        <span class="display-4 font-weight-bold">0</span>
+                        <span class="align-bottom">,00</span>
+                        <span class="text-muted">/month</span>
+                      </span>
+                      <ul class="list-unstyled mt-3 mb-4">
+                        <li>Free account</li>
+                        <li>500 MB of Tasks</li>
+                        <li>Email support</li>
+                        <li>No card need</li>
+                      </ul>
+                      <a href="{% url 'register' %}" class="btn btn-lg btn-block btn-outline-primary btn-circle">Sign up for free</a>
+                    </div>
+                  </div>
+                  <div class="card mb-4 shadow">
+                   
+                    <div class="card-body">
+                       <h3 class="my-3 font-weight-norma text-uppercase">Pro</h3>
+                       <span class="d-block  text-primary">
+                        <span class="align-top">€</span>
+                        <span class="display-4 font-weight-bold">9</span>
+                        <span class="align-bottom">,99</span>
+                        <span class="text-muted">/month</span>
+                      </span>
+                      <ul class="list-unstyled mt-3 mb-4">
+                        <li>Pro account</li>
+                        <li>10 GB of Tasks</li>
+                        <li>Priority email support</li>
+                        <li>Help center access</li>
+                      </ul>
+                      <a  href="{% url 'register' %}" class="btn btn-lg btn-block btn-primary btn-circle">Get started</a>
+                    </div>
+                  </div>
+                  <div class="card mb-4 shadow">
+                      <div class="card-body">
+                       <h3 class="my-3 font-weight-norma text-uppercase">Enterprise</h3>
+                       <span class="d-block  text-primary">
+                        <small class="align-center">from</small>
+                        <span class="align-top">€</span>
+                        <span class="display-4 font-weight-bold">19</span>
+                        <span class="align-bottom">,99</span>
+                        <span class="text-muted">/month</span>
+                      </span>
+                      <ul class="list-unstyled mt-3 mb-4">
+                        <li>Premium Account</li>
+                        <li>20 GB of Tasks</li>
+                        <li>Phone and email support</li>
+                        <li>Private help center access</li>
+                      </ul>
+                      <a href="#" class="btn btn-lg btn-block btn-primary btn-circle">Contact us</a>
+                    </div>
+                  </div>
+                  </div>
+                  
+                </div>
+             </div>
+             <hr>
+           </div>
+             <!-- price plan ends -->
+
+            
+           <!-- features start -->
+             <div class="container mt-5 ">
+                   <p class="py-4 h3 text-center">App features</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="mr-4" style="height:64px;width:64px;">
+                              <i class="fa fa-rocket card-img-top fa-4x text-primary" aria-hidden="true"></i>
+                            </div>
+                            <div class="media-body">
+                              <h4 class="mt-0 tex-dark">Register and Launch</h4>
+                              <p class=" text-secondary">Username, E-mail and a password, is everything you need to get started!</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="mr-4" style="height:64px;width:64px;">
+                              <i class="fa fa-leaf card-img-top fa-4x text-primary" aria-hidden="true"></i>
+                            </div>
+                            <div class="media-body">
+                              <h4 class="mt-0 tex-dark">We are light</h4>
+                              <p class=" text-secondary">Our app is light, we made it optimize for you to access wherever you want, whenever you want.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="row py-4">
+                    <div class="col-md-6">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="mr-4" style="height:64px;width:64px;">
+                              <i class="fa fa-shield card-img-top fa-4x text-primary" aria-hidden="true"></i>
+                            </div>
+                            <div class="media-body">
+                              <h4 class="mt-0 tex-dark">Secure</h4>
+                              <p class=" text-secondary">Here we take security very seriously, your data, tasks and information are safe with us.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="mr-4" style="height:64px;width:64px;">
+                              <i class="fa fa-cogs card-img-top fa-4x text-primary" aria-hidden="true"></i>
+                            </div>
+                            <div class="media-body">
+                              <h4 class="mt-0 tex-dark">Options</h4>
+                              <p class=" text-secondary">Here we only have time for what is important, you and your team much more Powerfull!</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div style="margin:0px" class="jumbotron bg-light">
+                <div class="jumbotron-overlay ">
+                    <div class="container  text-center text-dark">
+                    <h1 class="display-6">Get things done with <strong>Simple_Task!</strong></h1>
+                       <p>
+                          <a href="{% url 'register'%}" class="btn btn-lg btn-success btn-circle my-4 mr-3"> <strong>Start now!</strong> </a>
+                       </p>
+                    </div>
+                  </div>
+              </div>
+{% include "shared/footer.html" %}
+{% endblock content %}
