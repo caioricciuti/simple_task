@@ -3,15 +3,15 @@ import os
 import json
 
 
-'''
+
 with open("/etc/config.json") as config_file:
     config = json.load(config_file)
-'''
 
 
 
-with open("config.json") as config_file:
-    config = json.load(config_file)
+
+#with open("config.json") as config_file:
+#    config = json.load(config_file)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +22,7 @@ SECRET_KEY = config["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['52.157.94.39','simpletask.caioricciuti.com', '127.0.0.1']
+ALLOWED_HOSTS = ['52.157.94.39','simpletask.caioricciuti.com']
 
 
 # Application definition
