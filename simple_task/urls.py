@@ -22,5 +22,10 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', user_views.activate, name="activate"),    
 ]
 
+handler404 = 'task_app.views.handler404'
+handler403 = 'task_app.views.handler403'
+handler500 = 'task_app.views.handler500'
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

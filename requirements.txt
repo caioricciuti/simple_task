@@ -1,8 +1,14 @@
 asgiref==3.2.10
+beautifulsoup4==4.9.3
 Django==3.1.2
+django-bootstrap-datepicker-plus==3.0.5
+django-bootstrap4==2.3.1
+django-ckeditor==6.0.0
 django-crispy-forms==1.9.2
+django-js-asset==1.2.2
 django-phonenumber-field==5.0.0
 phonenumbers==8.12.11
 Pillow==7.2.0
 pytz==2020.1
+soupsieve==2.0.1
 sqlparse==0.4.1
