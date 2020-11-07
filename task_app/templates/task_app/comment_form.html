@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} New comment on: {{comments.title}}  {% endblock title %}
+{% block title %} Comment - {{comment.task.title}} {% endblock title %}
 {% load crispy_forms_tags %}
 {% block content %}
 {% include "shared/nav.html" %}
@@ -11,10 +11,8 @@
                 {% csrf_token %}
                 {{ form.media }}
                 {{ form|crispy }}
-                <p>User: {{user.username}}</p>
-                <p>Task:{{object.comments.id}}</p>
+                <p>Task:{{comment.task.title}}</p>
                 <p>{{comment.task.pk}}</p>
-
                 {% if comment.task.pk != null %}
                 <a href="{% url 'task-detail' comment.task.pk %}" class="btn btn-danger btn-user">Cancel</a>
                 {% else %}

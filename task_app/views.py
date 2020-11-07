@@ -69,6 +69,12 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
     fields = ['title','content','due_date','responsable','importance','departament','Status','is_public']
 
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['due_date'].widget = DateTimePickerInput()
+        return form
+
     def form_valid(self, form):
         if form.is_valid:
             form.instance.author = self.request.user
@@ -88,8 +94,6 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
-    success_url = '/task'
-
 
     def test_func(self):
         task = self.get_object()
@@ -97,6 +101,12 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         else:
             return False
+
+    def get_success_url(self, *args, **kwargs):
+        success_url = ('/task')
+        messages.warning(self.request, 'Task DELETED!')
+        return success_url
+
 
 class TaskSearchView(LoginRequiredMixin, ListView):
     template_name = 'task_app/task_search.html'
@@ -148,7 +158,6 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
-    success_url = ('/')
 
     def test_func(self):
         task = self.get_object()
@@ -156,6 +165,11 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         else:
             return False
+    
+    def get_success_url(self):
+        messages.warning(self.request, 'Comment DELETED!')
+        return reverse('task-detail', kwargs={'pk': self.get_object().task.pk})
+    
 
 def doc_taskapp(request):
     return render(request, 'task_app/task_docs.html')
