@@ -5,10 +5,7 @@ import json
 
 
 with open("/etc/config.json") as config_file:
-    config = json.load(config_file)
-
-
-
+   config = json.load(config_file)
 
 #with open("config.json") as config_file:
 #    config = json.load(config_file)
@@ -39,6 +36,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phonenumber_field',
     'ckeditor',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

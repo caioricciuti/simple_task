@@ -8,6 +8,7 @@ from django.utils import timezone
 import datetime
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from bootstrap_datepicker_plus import DateTimePickerInput
 
 def index_app(request):
     if request.user.is_authenticated:
@@ -49,8 +50,14 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = ['title','content','due_date','responsable','importance','departament','is_public']
 
+    def get_form(self):
+        form = super().get_form()
+        form.fields['due_date'].widget = DateTimePickerInput()
+        return form
+
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.responsable = self.request.user
         form.instance.date_created = timezone.now()
         form.instance.Status = "N"
         title = form.cleaned_data.get('title')
