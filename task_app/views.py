@@ -9,6 +9,12 @@ import datetime
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from bootstrap_datepicker_plus import DateTimePickerInput
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
 
 def index_app(request):
     if request.user.is_authenticated:
@@ -57,10 +63,21 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        form.instance.responsable = self.request.user
         form.instance.date_created = timezone.now()
         form.instance.Status = "N"
         title = form.cleaned_data.get('title')
+        responsable = form.cleaned_data.get('responsable')
+        mail_subject = f'{title} | Simple Task.'
+        message = render_to_string('shared/task_create_email.html', {
+                'user': responsable,
+                'title': title,
+                'author': form.instance.author
+            })
+        to_email = responsable.email
+        email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+        email.send()
         messages.success(self.request, f'Nice, {title} created! In this page you can update, comment and delete your task, have fun!')
         return super().form_valid(form)
 
@@ -68,13 +85,10 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = Task
     fields = ['title','content','due_date','responsable','importance','departament','Status','is_public']
-
-
     def get_form(self):
         form = super().get_form()
         form.fields['due_date'].widget = DateTimePickerInput()
         return form
-
     def form_valid(self, form):
         if form.is_valid:
             form.instance.author = self.request.user
