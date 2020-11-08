@@ -12,7 +12,8 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 def index_app(request):
     if request.user.is_authenticated:
@@ -63,13 +64,15 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         form.instance.date_created = timezone.now()
         form.instance.Status = "N"
+        current_site = ('https://simpletask.caioricciuti.com/task')
         title = form.cleaned_data.get('title')
         responsable = form.cleaned_data.get('responsable')
         mail_subject = f'{title} | Simple Task.'
-        message = render_to_string('shared/task_create_email.html', {
+        message = render_to_string('task_app/task_create_email.html', {
                 'user': responsable,
                 'title': title,
-                'author': form.instance.author
+                'author': form.instance.author,
+                'domain': current_site,                
             })
         to_email = responsable.email
         email = EmailMessage(
