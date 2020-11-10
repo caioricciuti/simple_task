@@ -43,6 +43,7 @@
           <th scope="col">Task</th>
           <th scope="col">Due Date</th>
           <th scope="col">Responsable</th>
+          <th scope="col"></th>
           <th scope="col">Status</th>
           <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
           <th scope="col"></th>
@@ -50,14 +51,12 @@
       </thead>
        <tbody>
         {% for task in object_list %}
-      <tr>
+        <tr>
           {% if task.importance == "H" %}
           <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "M" %}
+          {% elif task.importance == "M" %}
           <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "L" %}
+          {% else %}
           <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
           {% endif %}
           {% if task.author == user %}
@@ -68,31 +67,23 @@
           <td><a href="{{task.id}}">{{task.title}}</a></td>
           <td>{{task.due_date|date:"F d, Y"}}</td>
           <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
-          {% if task.Status == "P" %}
-          <td><i data-toggle="tooltip" data-placement="top" title="On progress" style="color: blue; font-size: 1.2rem;" class="fas fa-hourglass-half"></i></td>
+          {% if task.is_public == False %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Private"><i style="color: salmon; font-size: 1.2rem" class="fas fa-user-lock"></i></th>
+          {% else %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
           {% endif %}
-          {% if task.Status == "D" %}
           <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
-          {% endif %}
-          {% if task.Status == "N" %}
-          <td><i data-toggle="tooltip" data-placement="top" title="To-do, not started" style="color: orange; font-size: 1.2rem;" class="fas fa-clock"></i></td>
-          {% endif %}
           {% if task.departament == 'M' %}
           <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
-          {% endif %}
-          {% if task.departament == 'D' %}
+          {% elif task.departament == 'D' %}
           <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
-          {% endif %}
-          {% if task.departament == 'H' %}
+          {% elif task.departament == 'H' %}
           <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'L' %}
+           {% elif task.departament == 'L' %}
           <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'F' %}
+           {% elif task.departament == 'F' %}
           <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'O' %}
+           {% else %}
           <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
           {% endif %}
           {% if task.author == user %}

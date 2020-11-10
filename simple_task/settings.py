@@ -16,7 +16,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['52.157.94.39','simpletask.caioricciuti.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [

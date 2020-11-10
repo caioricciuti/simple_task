@@ -33,7 +33,7 @@ class DashboardTaskAppView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         usr = self.request.user
-        return Task.objects.filter(Q(responsable=usr)).order_by('due_date')
+        return Task.objects.filter(Q(responsable=usr) | Q(author = usr)).order_by('due_date')
 
 class DashboardTaskAppViewPublic(LoginRequiredMixin, ListView):
     model = Task
@@ -53,7 +53,7 @@ class DashboardTaskAppViewUser(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         usr = self.request.user
-        return Task.objects.filter(Q(is_public=True) & Q(responsable = user) | Q(responsable = user))
+        return Task.objects.filter(Q(is_public=True) & Q(responsable = user) | Q(author = usr) & Q(responsable = user)  )
 
    
 

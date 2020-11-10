@@ -22,6 +22,7 @@
           <th scope="col">Task</th>
           <th scope="col">Due Date</th>
           <th scope="col">Responsable</th>
+          <th scope="col"></th>
           <th scope="col">Status</th>
           <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
           <th scope="col"></th>
@@ -47,6 +48,11 @@
           <td><a href="{{query.id}}">{{query.title}}</a></td>
           <td>{{query.due_date|date:"F d, Y"}}</td>
           <td> <a href="{% url 'user-tasks' query.responsable %}">{{query.responsable}}</a> </td>
+          {% if query.is_public == False %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Private"><i style="color: salmon; font-size: 1.2rem" class="fas fa-user-lock"></i></th>
+          {% else %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
+          {% endif %}
           {% if query.Status == "P" %}
           <td><i data-toggle="tooltip" data-placement="top" title="On progress" style="color: blue; font-size: 1.2rem;" class="fas fa-hourglass-half"></i></td>
           {% endif %}

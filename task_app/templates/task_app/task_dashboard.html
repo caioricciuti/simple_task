@@ -43,6 +43,7 @@
           <th scope="col">Task</th>
           <th scope="col">Due Date</th>
           <th scope="col">Responsable</th>
+          <th scope="col"></th>
           <th scope="col">Status</th>
           <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
           <th scope="col"></th>
@@ -50,52 +51,52 @@
       </thead>
        <tbody>
         {% for task in object_list %}
+        {% if user == task.responsable %}
           {% if task.Status == "P" %}
-      <tr>
-          {% if task.importance == "H" %}
-          <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "M" %}
-          <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "L" %}
-          <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.author == user %}
-          <th scope="row"><a href="{{task.id}}/update"><i class="fas fa-edit"></i></a></th>
-          {%else%}
-          <td data-toggle="tooltip" data-placement="top" title="Only the owner can update, you can comment though!"><i style="color:#CACACA " class="fas fa-edit"></i></i></td>
-          {% endif %}
-          <td><a href="{{task.id}}">{{task.title}}</a></td>
-          <td>{{task.due_date|date:"F d, Y"}}</td>
-          <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
-          <td><i data-toggle="tooltip" data-placement="top" title="On progress" style="color: blue; font-size: 1.2rem;" class="fas fa-hourglass-half"></i></td>
-          {% if task.departament == 'M' %}
-          <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
-          {% endif %}
-          {% if task.departament == 'D' %}
-          <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
-          {% endif %}
-          {% if task.departament == 'H' %}
-          <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'L' %}
-          <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'F' %}
-          <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'O' %}
-          <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
-          {% endif %}
-          {% if task.author == user %}
-          <td><a href="{{task.id}}/delete"><i style="color: red;" class="fas fa-trash-alt"></i></a></td>
-          {%else%}
-          <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
-          {% endif %}
-      </tr>
+          <tr>
+            {% if task.importance == "H" %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
+            {% elif task.importance == "M" %}
+            <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
+            {% else %}
+            <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
+            {% endif %}
+            {% if task.author == user %}
+            <th scope="row"><a href="{{task.id}}/update"><i class="fas fa-edit"></i></a></th>
+            {%else%}
+            <td data-toggle="tooltip" data-placement="top" title="Only the owner can update, you can comment though!"><i style="color:#CACACA " class="fas fa-edit"></i></i></td>
+            {% endif %}
+            <td><a href="{{task.id}}">{{task.title}}</a></td>
+            <td>{{task.due_date|date:"F d, Y"}}</td>
+            <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
+            {% if task.is_public == False %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Private"><i style="color: salmon; font-size: 1.2rem" class="fas fa-user-lock"></i></th>
+            {% else %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
+            {% endif %}
+            <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
+            {% if task.departament == 'M' %}
+            <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
+            {% elif task.departament == 'D' %}
+            <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
+            {% elif task.departament == 'H' %}
+            <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
+             {% elif task.departament == 'L' %}
+            <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
+             {% elif task.departament == 'F' %}
+            <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
+             {% else %}
+            <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
+            {% endif %}
+            {% if task.author == user %}
+            <td><a href="{{task.id}}/delete"><i style="color: red;" class="fas fa-trash-alt"></i></a></td>
+            {%else%}
+            <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
+            {% endif %}
+        </tr>
        {% endif %}
-      {% endfor %}
+       {% endif %}
+       {% endfor %}
       </tbody>
   </table>
         </div>
@@ -121,6 +122,7 @@
           <th scope="col">Task</th>
           <th scope="col">Due Date</th>
           <th scope="col">Responsable</th>
+          <th scope="col"></th>
           <th scope="col">Status</th>
           <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
           <th scope="col"></th>
@@ -128,52 +130,52 @@
       </thead>
        <tbody>
         {% for task in object_list %}
+        {% if user == task.responsable %}
           {% if task.Status == "N" %}
-      <tr>
-          {% if task.importance == "H" %}
-          <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "M" %}
-          <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "L" %}
-          <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.author == user %}
-          <th scope="row"><a href="{{task.id}}/update"><i class="fas fa-edit"></i></a></th>
-          {%else%}
-          <td data-toggle="tooltip" data-placement="top" title="Only the owner can update, you can comment though!"><i style="color:#CACACA " class="fas fa-edit"></i></i></td>
-          {% endif %}
-          <td><a href="{{task.id}}">{{task.title}}</a></td>
-          <td>{{task.due_date|date:"F d, Y"}}</td>
-          <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
-          <td><i data-toggle="tooltip" data-placement="top" title="To-do, not started" style="color: orange; font-size: 1.2rem;" class="fas fa-clock"></i></td>
-          {% if task.departament == 'M' %}
-          <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
-          {% endif %}
-          {% if task.departament == 'D' %}
-          <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
-          {% endif %}
-          {% if task.departament == 'H' %}
-          <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'L' %}
-          <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'F' %}
-          <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'O' %}
-          <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
-          {% endif %}
-          {% if task.author == user %}
-          <td><a href="{{task.id}}/delete"><i style="color: red;" class="fas fa-trash-alt"></i></a></td>
-          {%else%}
-          <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
-          {% endif %}
-      </tr>
+          <tr>
+            {% if task.importance == "H" %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
+            {% elif task.importance == "M" %}
+            <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
+            {% else %}
+            <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
+            {% endif %}
+            {% if task.author == user %}
+            <th scope="row"><a href="{{task.id}}/update"><i class="fas fa-edit"></i></a></th>
+            {%else%}
+            <td data-toggle="tooltip" data-placement="top" title="Only the owner can update, you can comment though!"><i style="color:#CACACA " class="fas fa-edit"></i></i></td>
+            {% endif %}
+            <td><a href="{{task.id}}">{{task.title}}</a></td>
+            <td>{{task.due_date|date:"F d, Y"}}</td>
+            <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
+            {% if task.is_public == False %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Private"><i style="color: salmon; font-size: 1.2rem" class="fas fa-user-lock"></i></th>
+            {% else %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
+            {% endif %}
+            <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
+            {% if task.departament == 'M' %}
+            <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
+            {% elif task.departament == 'D' %}
+            <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
+            {% elif task.departament == 'H' %}
+            <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
+             {% elif task.departament == 'L' %}
+            <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
+             {% elif task.departament == 'F' %}
+            <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
+             {% else %}
+            <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
+            {% endif %}
+            {% if task.author == user %}
+            <td><a href="{{task.id}}/delete"><i style="color: red;" class="fas fa-trash-alt"></i></a></td>
+            {%else%}
+            <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
+            {% endif %}
+        </tr>
        {% endif %}
-      {% endfor %}
+       {% endif %}
+       {% endfor %}
       </tbody>
   </table>
         </div>
@@ -200,6 +202,7 @@
           <th scope="col">Task</th>
           <th scope="col">Due Date</th>
           <th scope="col">Responsable</th>
+          <th scope="col"></th>
           <th scope="col">Status</th>
           <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
           <th scope="col"></th>
@@ -207,15 +210,14 @@
       </thead>
        <tbody>
         {% for task in object_list %}
-          {% if task.Status == "D" %}
+        {% if user == task.responsable %}
+        {% if task.Status == "D" %}
       <tr>
           {% if task.importance == "H" %}
           <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "M" %}
+          {% elif task.importance == "M" %}
           <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
-          {% endif %}
-          {% if task.importance == "L" %}
+          {% else %}
           <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
           {% endif %}
           {% if task.author == user %}
@@ -226,23 +228,23 @@
           <td><a href="{{task.id}}">{{task.title}}</a></td>
           <td>{{task.due_date|date:"F d, Y"}}</td>
           <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
+          {% if task.is_public == False %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Private"><i style="color: salmon; font-size: 1.2rem" class="fas fa-user-lock"></i></th>
+          {% else %}
+          <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
+          {% endif %}
           <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
           {% if task.departament == 'M' %}
           <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
-          {% endif %}
-          {% if task.departament == 'D' %}
+          {% elif task.departament == 'D' %}
           <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
-          {% endif %}
-          {% if task.departament == 'H' %}
+          {% elif task.departament == 'H' %}
           <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'L' %}
+           {% elif task.departament == 'L' %}
           <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'F' %}
+           {% elif task.departament == 'F' %}
           <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
-          {% endif %}
-           {% if task.departament == 'O' %}
+           {% else %}
           <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
           {% endif %}
           {% if task.author == user %}
@@ -252,12 +254,88 @@
           {% endif %}
       </tr>
        {% endif %}
+       {% endif %}
       {% endfor %}
       </tbody>
 </table>
         </div>
       </div>
     </div>
+    <div style="margin-top: 15px;" class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">I Created:</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-area table-responsive">
+        <table class="table table-striped .w-auto">
+      <thead class="table-dark">
+      <tr>
+          <th scope="col" data-toggle="tooltip" data-placement="top" title="Task importance"><i class="fas fa-bookmark"></i></th>
+          <th scope="col"></th>
+          <th scope="col">Task</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Responsable</th>
+          <th scope="col"></th>
+          <th scope="col">Status</th>
+          <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
+          <th scope="col"></th>
+      </tr>
+      </thead>
+       <tbody>
+        {% for task in object_list %}
+          {% if user == task.author and user != task.responsable %}
+          <tr>
+            {% if task.importance == "H" %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
+            {% elif task.importance == "M" %}
+            <th scope="row" data-toggle="tooltip" data-placement="top" title="Medium"><i style="color: orange" class="fas fa-bookmark"></i></th>
+            {% else %}
+            <th scope="row" data-toggle="tooltip" data-placement="top" title="Low"><i style="color: purple" class="fas fa-bookmark"></i></th>
+            {% endif %}
+            {% if task.author == user %}
+            <th scope="row"><a href="{{task.id}}/update"><i class="fas fa-edit"></i></a></th>
+            {%else%}
+            <td data-toggle="tooltip" data-placement="top" title="Only the owner can update, you can comment though!"><i style="color:#CACACA " class="fas fa-edit"></i></i></td>
+            {% endif %}
+            <td><a href="{{task.id}}">{{task.title}}</a></td>
+            <td>{{task.due_date|date:"F d, Y"}}</td>
+            <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
+            {% if task.is_public == False %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Private"><i style="color: salmon; font-size: 1.2rem" class="fas fa-user-lock"></i></th>
+            {% else %}
+            <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
+            {% endif %}
+            <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
+            {% if task.departament == 'M' %}
+            <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
+            {% elif task.departament == 'D' %}
+            <td data-toggle="tooltip" data-placement="top" title="Development"><i style="color:#104547;font-size:1.2rem" class="far fa-file-code"></i></td>
+            {% elif task.departament == 'H' %}
+            <td data-toggle="tooltip" data-placement="top" title="Human Resources"><i style="color:#A53860;font-size:1.2rem" class="fas fa-universal-access"></i></i></td>
+             {% elif task.departament == 'L' %}
+            <td data-toggle="tooltip" data-placement="top" title="Legal"><i style="color:#8EB1C7;font-size:1.2rem" class="fas fa-balance-scale"></i></i></td>
+             {% elif task.departament == 'F' %}
+            <td data-toggle="tooltip" data-placement="top" title="Finance"><i style="color:#00AFB5;font-size:1.2rem" class="fas fa-hand-holding-usd"></i></i></td>
+             {% else %}
+            <td data-toggle="tooltip" data-placement="top" title="Other"><i style="color:#FE938C;font-size:1.2rem"  class="fas fa-ellipsis-h"></i></i></td>
+            {% endif %}
+            {% if task.author == user %}
+            <td><a href="{{task.id}}/delete"><i style="color: red;" class="fas fa-trash-alt"></i></a></td>
+            {%else%}
+            <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
+            {% endif %}
+        </tr>
+       {% endif %}
+      {% endfor %}
+      </tbody>
+  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
 </div>
 
