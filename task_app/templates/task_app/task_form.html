@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block title %} {{task.title}} Task {% endblock title %}
-{% load crispy_forms_tags %}
 {% block content %}
-{% include "shared/nav.html" %}
+{% load crispy_forms_tags %}
 {% load bootstrap4 %}
 {% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
+{% include "shared/nav.html" %}
+{% bootstrap_javascript jquery='slim' %}
 
     <div style="margin-top: -20px;" class="container">    
         <div style="margin: 0 0 0 0;" >

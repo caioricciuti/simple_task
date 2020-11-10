@@ -9,11 +9,13 @@ from .views import (DashboardTaskAppView,
                     CommentCreateView,
                     CommentUpdateView,
                     CommentDeleteView,
-                    TaskSearchView
+                    TaskSearchView,
+                    DashboardTaskAppViewUser
                     )
 
 urlpatterns = [
     path('', views.index_app, name="home-app"),
+    path('user/<str:username>/', DashboardTaskAppViewUser.as_view(), name="user-tasks"),
     path('task/', DashboardTaskAppView.as_view(), name="task-home"),
     path('task/public', DashboardTaskAppViewPublic.as_view(), name="task-home-public"),
     path('task/new_task/', TaskCreateView.as_view(), name='task-create'),

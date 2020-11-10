@@ -46,7 +46,7 @@
           {% endif %}
           <td><a href="{{query.id}}">{{query.title}}</a></td>
           <td>{{query.due_date|date:"F d, Y"}}</td>
-          <td>{{query.responsable}}</td>
+          <td> <a href="{% url 'user-tasks' query.responsable %}">{{query.responsable}}</a> </td>
           {% if query.Status == "P" %}
           <td><i data-toggle="tooltip" data-placement="top" title="On progress" style="color: blue; font-size: 1.2rem;" class="fas fa-hourglass-half"></i></td>
           {% endif %}

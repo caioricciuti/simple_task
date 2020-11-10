@@ -10,9 +10,9 @@
             <div class="card-body">
               <h5 class="card-title">Hello, <strong>{{user.username}}!</strong></h5>
               <p class="card-text">Today is <strong>{% now "jS F Y" %}</strong> and it is {% now "H:i" %}!</p>
-              <a href="{% url 'task-create' %}" class="btn btn-success">New Task</a>
-              <a href="{% url 'task-home-public' %}" class="btn btn-primary">Public Tasks</a>
-              <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+              <a style="margin: 3px" href="{% url 'task-create' %}" class="btn btn-success btn-sm">New Task</a>
+              <a style="margin: 3px" href="{% url 'task-home-public' %}" class="btn btn-primary btn-sm">Public Tasks</a>
+              <a style="margin: 3px" href="{% url 'logout' %}" class="btn btn-warning btn-sm">Logout</a>
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@
           {% endif %}
           <td><a href="{{task.id}}">{{task.title}}</a></td>
           <td>{{task.due_date|date:"F d, Y"}}</td>
-          <td>{{task.responsable}}</td>
+          <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
           <td><i data-toggle="tooltip" data-placement="top" title="On progress" style="color: blue; font-size: 1.2rem;" class="fas fa-hourglass-half"></i></td>
           {% if task.departament == 'M' %}
           <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
@@ -146,7 +146,7 @@
           {% endif %}
           <td><a href="{{task.id}}">{{task.title}}</a></td>
           <td>{{task.due_date|date:"F d, Y"}}</td>
-          <td>{{task.responsable}}</td>
+          <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
           <td><i data-toggle="tooltip" data-placement="top" title="To-do, not started" style="color: orange; font-size: 1.2rem;" class="fas fa-clock"></i></td>
           {% if task.departament == 'M' %}
           <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
@@ -225,7 +225,7 @@
           {% endif %}
           <td><a href="{{task.id}}">{{task.title}}</a></td>
           <td>{{task.due_date|date:"F d, Y"}}</td>
-          <td>{{task.responsable}}</td>
+          <td> <a href="{% url 'user-tasks' task.responsable %}">{{task.responsable}}</a> </td>
           <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
           {% if task.departament == 'M' %}
           <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>

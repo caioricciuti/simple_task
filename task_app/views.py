@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Task, Comment
 from django.contrib.auth.models import User
@@ -12,6 +12,12 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+
+def taskcount(request, args, **kwargs):
+    Task = Task.objects.get.all()
+    usr = request.user
+    today = datetime.date.today()
+    pass
 
 def index_app(request):
     if request.user.is_authenticated:
@@ -37,6 +43,18 @@ class DashboardTaskAppViewPublic(LoginRequiredMixin, ListView):
 
     def queryset(self):
         return Task.objects.filter(Q(is_public=True))
+    
+class DashboardTaskAppViewUser(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = "task_app/task_dashboard_user.html"
+    context_object_name = 'tasks'
+    today = datetime.date.today()
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Task.objects.filter(Q(is_public=True) & Q(responsable = user))
+
+   
 
 class TaskDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Task
@@ -69,7 +87,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
                 'user': responsable,
                 'title': title,
                 'author': form.instance.author,
-                'domain': current_site,                
+                'domain': current_site,            
             })
         to_email = responsable.email
         email = EmailMessage(
@@ -126,8 +144,9 @@ class TaskSearchView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
+        usr = self.request.user
         if query:
-            object_list = self.model.objects.filter(title__icontains=query)
+            object_list = self.model.objects.filter(Q(title__icontains=query) & Q(is_public = True) | Q(title__icontains=query) & Q(author = usr) | Q(title__icontains=query) & Q(responsable = usr)) 
             #object_list = self.model.objects.filter(title__icontains=query)
         else:
             object_list = self.model.objects.none()
