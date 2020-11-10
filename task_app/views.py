@@ -53,7 +53,7 @@ class DashboardTaskAppViewUser(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         usr = self.request.user
-        return Task.objects.filter(Q(is_public=True) & Q(responsable = user) | Q(responsable = usr) )
+        return Task.objects.filter(Q(is_public=True) & Q(responsable = user) | Q(responsable = user) &  )
 
    
 
