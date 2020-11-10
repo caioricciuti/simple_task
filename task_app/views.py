@@ -12,6 +12,7 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+
 def index_app(request):
     if request.user.is_authenticated:
         return redirect('task/')
@@ -23,11 +24,10 @@ class DashboardTaskAppView(LoginRequiredMixin, ListView):
     template_name = "task_app/task_dashboard.html"
     context_object_name = 'tasks'
     today = datetime.date.today()
-
-    def queryset(self):
-        ordering = ['-due_date']
+    
+    def get_queryset(self):
         usr = self.request.user
-        return Task.objects.filter(Q(responsable=usr))
+        return Task.objects.filter(Q(responsable=usr)).order_by('due_date')
 
 class DashboardTaskAppViewPublic(LoginRequiredMixin, ListView):
     model = Task
