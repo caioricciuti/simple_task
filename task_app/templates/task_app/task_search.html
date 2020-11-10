@@ -1,6 +1,6 @@
 
 {% extends "base.html" %}
-{% block title %} Public Task Dashboard - {{user.username}} {% endblock title %}
+{% block title %} Search: {{ request.GET.q }} {% endblock title %}
 {% block content %}
 {% include "shared/nav.html" %}
 

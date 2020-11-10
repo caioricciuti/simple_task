@@ -34,7 +34,7 @@
                          <label>Author:</label>
                      </div>
                      <div class="col-md-6">
-                         <p>{{object.author}}</p>
+                         <p><a href="{% url 'user-tasks' object.author %}">{{object.author}}</a></p>
                      </div>
                  </div>
                  <div class="row">
@@ -42,7 +42,7 @@
                          <label>Responsable</label>
                      </div>
                      <div class="col-md-6">
-                         <p>{{object.responsable}}</p>
+                        <a href="{% url 'user-tasks' object.responsable %}">{{object.responsable}}</a>
                      </div>
                  </div>
                  <div class="row">
@@ -160,7 +160,7 @@
                         <div class="row">
                             <div class="col-md">
                                 <p>
-                                    <a style="font-size: 1.3rem; margin-bottom: 2px;" class="float-left" href="#"><strong>{{comment.author}}</strong></a>
+                                    <a style="font-size: 1.3rem; margin-bottom: 2px;" class="float-left" href="{% url 'user-tasks' comment.author %}"><strong>{{comment.author}}</strong></a>
                                     {% if request.user == comment.author%}
                                     <a style="color:red;margin-bottom: 2px;" class="float-right" href="{% url 'task-comment-delete' comment.id %}"><strong><i class="fas fa-trash"></i></strong></a>
                                     <a style="margin-right: 10px;margin-bottom: 2px;" class="float-right" href="{% url 'task-comment-update' comment.id %}"><strong><i class="fas fa-edit"></i></strong></a>
