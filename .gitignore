@@ -3,3 +3,5 @@ config.json
 __pycache__
 db.sqlite3
 etc
+migrations
+media
