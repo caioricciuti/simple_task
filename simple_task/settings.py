@@ -14,7 +14,7 @@ SECRET_KEY = config["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['52.157.94.39','simpletask.caioricciuti.com','127.0.0.1']
+ALLOWED_HOSTS = ['35.180.118.60', 'simpletask.caioricciuti.com']
 
 # Application definition
 
@@ -110,7 +110,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
