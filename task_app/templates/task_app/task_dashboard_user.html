@@ -72,7 +72,13 @@
           {% else %}
           <th  scope="row" data-toggle="tooltip" data-placement="top" title="Is Public"><i style="color: #123456 ; font-size: 1.2rem" class="fas fa-lock-open"></i></th>
           {% endif %}
+          {% if task.Status == 'D' %}
           <td><i data-toggle="tooltip" data-placement="top" title="Good job! This task is done!" style="color: green; font-size: 1.2rem;" class="fas fa-check-circle"></i></td>
+          {% elif task.Status == 'N' %}
+          <td><i data-toggle="tooltip" data-placement="top" title="Not done/started!" style="color: rgb(216, 187, 92); font-size: 1.2rem;" class="fas fa-clipboard"></i></td>
+          {% else %}
+          <td><i data-toggle="tooltip" data-placement="top" title="In progress, keep the good work!" style="color: rgb(40, 95, 88); font-size: 1.2rem;" class="fas fa-gears"></i></td>
+          {% endif %}
           {% if task.departament == 'M' %}
           <td data-toggle="tooltip" data-placement="top" title="Marketing"><i style="color:#679436;font-size:1.2rem" class="fas fa-search-dollar"></i></td>
           {% elif task.departament == 'D' %}
