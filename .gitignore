@@ -5,5 +5,5 @@ db.sqlite3
 etc
 media
 migrations
-/ckeditor
-/bootstrap_datepicker_plus
+ckeditor
+bootstrap_datepicker_plus
