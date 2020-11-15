@@ -28,6 +28,7 @@
           <th scope="col"></th>
       </tr>
       {% for query in object_list %}
+
       </thead>
         <tbody>
       <tr>
@@ -86,7 +87,14 @@
           <td data-toggle="tooltip" data-placement="top" title="Sorry, only the Task author can delete this."><i style="color:#CACACA " class="fas fa-trash-alt"></i></i></td>
           {% endif %}
       </tr>
-      {% endfor %}
+      {% empty %}
+      <tr><td style="text-align: center;" colspan="9"><h5><strong>Nothing found!</strong></h5></td></tr>
+      <tr><td style="content: center;" colspan="9">
+        <form class="form-group seach-form" action="{% url 'task-search' %}" method='GET'>
+          <input placeholder="Try again..." class="form-control mr-sm-2" type='text' name='q' value=''>
+          <button hidden="true" class="btn btn-outline-success my-2 my-sm-0" type='submit'><i class="fas fa-search"></i></button>
+        </form></td></tr>
+    {% endfor %}
       </tbody>
   </table>
         </div>
