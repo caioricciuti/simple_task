@@ -134,7 +134,7 @@
           {% if user.is_authenticated %}
           <ul class="navbar-nav ">
                  <li class="nav-item">
-                   <form class="form-inline seach-form" action="/task/results" method='GET'>
+                   <form class="form-inline seach-form" action="{% url 'task-search' %}" method='GET'>
                      <input placeholder="Seach for any task" class="form-control mr-sm-2" type='text' name='q' value='{{ request.GET.q }}'>
                      <button class="btn btn-outline-success my-2 my-sm-0" type='submit'><i class="fas fa-search"></i></button>
                    </form>
