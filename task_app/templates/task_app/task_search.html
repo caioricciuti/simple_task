@@ -5,7 +5,7 @@
 {% include "shared/nav.html" %}
 
 <div class="container" style="margin-top: 10px;font-size: 0.8rem">
-    
+
     <div style="margin-top: 15px;" class="card shadow mb-4">
       <!-- Card Header - Dropdown -->
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -27,9 +27,9 @@
           <th scope="col" data-toggle="tooltip" data-placement="top" title="Departament">Dep.</th>
           <th scope="col"></th>
       </tr>
+      {% for query in object_list %}
       </thead>
-       <tbody>
-        {% for query in object_list %}
+        <tbody>
       <tr>
           {% if query.importance == "H" %}
           <th  scope="row" data-toggle="tooltip" data-placement="top" title="HIGH"><i style="color: red" class="fas fa-bookmark"></i></th>
@@ -93,6 +93,7 @@
       </div>
     </div>
   </div>
+
 </div>
 {% include "shared/footer.html" %}
 {% endblock content %}

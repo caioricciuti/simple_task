@@ -147,8 +147,8 @@ class TaskSearchView(LoginRequiredMixin, ListView):
         query = self.request.GET.get('q')
         usr = self.request.user
         if query:
-            object_list = self.model.objects.filter(Q(title__icontains=query) & Q(is_public = True) | Q(title__icontains=query) & Q(author = usr) | Q(title__icontains=query) & Q(responsable = usr)) 
-            #object_list = self.model.objects.filter(title__icontains=query)
+            object_list = self.model.objects.filter(Q(title__icontains=query) & Q(is_public = True) | 
+            Q(title__icontains=query) & Q(author = usr) | Q(title__icontains=query) & Q(responsable = usr)) 
         else:
             object_list = self.model.objects.none()
         return object_list

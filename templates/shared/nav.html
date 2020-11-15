@@ -1,6 +1,4 @@
 <style>
-    @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-
 .navbar-icon-top .navbar-nav .nav-link > .fa {
   position: relative;
   width: 36px;
@@ -137,7 +135,7 @@
           <ul class="navbar-nav ">
                  <li class="nav-item">
                    <form class="form-inline seach-form" action="/task/results" method='GET'>
-                     <input class="form-control mr-sm-2" type='text' name='q' value='{{ request.GET.q }}'>
+                     <input placeholder="Seach for any task" class="form-control mr-sm-2" type='text' name='q' value='{{ request.GET.q }}'>
                      <button class="btn btn-outline-success my-2 my-sm-0" type='submit'><i class="fas fa-search"></i></button>
                    </form>
                  </li>
