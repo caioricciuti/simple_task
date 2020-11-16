@@ -2,7 +2,6 @@ from pathlib import Path
 import os
 import json
 
-#set /etc/ when pushing to git
 with open("etc/config.json") as config_file:
    config = json.load(config_file)
 
