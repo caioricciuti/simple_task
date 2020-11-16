@@ -3,7 +3,7 @@ import os
 import json
 
 with open("etc/config.json") as config_file:
-   config = json.load(config_file)
+    config = json.load(config_file)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,7 +48,7 @@ ROOT_URLCONF = 'simple_task.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,"templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +120,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 AUTHENTICATION_BACKENDS = ('users.models.EmailBackend',)
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 PHONENUMBER_DEFAULT_REGION = 'ES'
