@@ -13,27 +13,31 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 
+
 def taskcount(request, args, **kwargs):
     Task = Task.objects.get.all()
     usr = request.user
     today = datetime.date.today()
     pass
 
+
 def index_app(request):
     if request.user.is_authenticated:
         return redirect('task/')
     else:
         return render(request, 'task_app/index.html')
-       
+
+
 class DashboardTaskAppView(LoginRequiredMixin, ListView):
     model = Task
     template_name = "task_app/task_dashboard.html"
     context_object_name = 'tasks'
     today = datetime.date.today()
-    
+
     def get_queryset(self):
         usr = self.request.user
-        return Task.objects.filter(Q(responsable=usr) | Q(author = usr)).order_by('due_date')
+        return Task.objects.filter(Q(responsable=usr) | Q(author=usr)).order_by('due_date')
+
 
 class DashboardTaskAppViewPublic(LoginRequiredMixin, ListView):
     model = Task
@@ -42,8 +46,9 @@ class DashboardTaskAppViewPublic(LoginRequiredMixin, ListView):
     today = datetime.date.today()
 
     def queryset(self):
-        return Task.objects.filter(Q(is_public=True))
-    
+        return Task.objects.filter(Q(is_public=True)).order_by('due_date')
+
+
 class DashboardTaskAppViewUser(LoginRequiredMixin, ListView):
     model = Task
     template_name = "task_app/task_dashboard_user.html"
@@ -53,9 +58,8 @@ class DashboardTaskAppViewUser(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         usr = self.request.user
-        return Task.objects.filter(Q(is_public=True) & Q(responsable = user) | Q(author = usr) & Q(responsable = user)  )
+        return Task.objects.filter(Q(is_public=True) & Q(responsable=user) | Q(author=usr) & Q(responsable=user))
 
-   
 
 class TaskDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Task
@@ -63,13 +67,15 @@ class TaskDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def test_func(self):
         task = self.get_object()
         if self.request.user == task.author or self.request.user == task.responsable or task.is_public == True:
-            return True 
+            return True
         else:
             return False
 
+
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ['title','content','due_date','responsable','importance','departament','is_public']
+    fields = ['title', 'content', 'due_date', 'responsable',
+              'importance', 'departament', 'is_public']
 
     def get_form(self):
         form = super().get_form()
@@ -85,27 +91,32 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         responsable = form.cleaned_data.get('responsable')
         mail_subject = f'{title} | Simple Task.'
         message = render_to_string('task_app/task_create_email.html', {
-                'user': responsable,
-                'title': title,
-                'author': form.instance.author,
-                'domain': current_site,            
-            })
+            'user': responsable,
+            'title': title,
+            'author': form.instance.author,
+            'domain': current_site,
+        })
         to_email = responsable.email
         email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
+            mail_subject, message, to=[to_email]
+        )
         email.send()
-        messages.success(self.request, f'Nice, {title} created! In this page you can update, comment and delete your task, have fun!')
+        messages.success(
+            self.request, f'Nice, {title} created! In this page you can update, comment and delete your task, have fun!')
         return super().form_valid(form)
+
 
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = Task
-    fields = ['title','content','due_date','responsable','importance','departament','Status','is_public']
+    fields = ['title', 'content', 'due_date', 'responsable',
+              'importance', 'departament', 'Status', 'is_public']
+
     def get_form(self):
         form = super().get_form()
         form.fields['due_date'].widget = DateTimePickerInput()
         return form
+
     def form_valid(self, form):
         if form.is_valid:
             form.instance.author = self.request.user
@@ -113,7 +124,7 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             title = form.cleaned_data.get('title')
             messages.info(self.request, f'You just updated: {title}!')
             return super().form_valid(form)
-        else: 
+        else:
             pass
 
     def test_func(self):
@@ -122,6 +133,7 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
+
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
@@ -147,16 +159,17 @@ class TaskSearchView(LoginRequiredMixin, ListView):
         query = self.request.GET.get('q')
         usr = self.request.user
         if query:
-            object_list = self.model.objects.filter(Q(title__icontains=query) & Q(is_public = True) | 
-            Q(title__icontains=query) & Q(author = usr) | Q(title__icontains=query) & Q(responsable = usr)) 
+            object_list = self.model.objects.filter(Q(title__icontains=query) & Q(is_public=True) |
+                                                    Q(title__icontains=query) & Q(author=usr) | Q(title__icontains=query) & Q(responsable=usr))
         else:
             object_list = self.model.objects.none()
         return object_list
 
+
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['body']
-    
+
     def form_valid(self, form):
         form.instance.task_id = self.kwargs['pk']
         form.instance.author = self.request.user
@@ -184,9 +197,10 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
-            
+
     def get_success_url(self):
         return reverse('task-detail', kwargs={'pk': self.get_object().task.pk})
+
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
@@ -197,20 +211,23 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         else:
             return False
-    
+
     def get_success_url(self):
         messages.warning(self.request, 'Comment DELETED!')
         return reverse('task-detail', kwargs={'pk': self.get_object().task.pk})
-    
+
 
 def doc_taskapp(request):
     return render(request, 'task_app/task_docs.html')
 
+
 def handler404(request, exception):
     return render(request, '404.html', status=404)
 
+
 def handler500(request):
     return render(request, '500.html', status=500)
-    
+
+
 def handler403(request, exception):
     return render(request, '403.html', status=403)
