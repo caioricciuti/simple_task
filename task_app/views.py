@@ -14,13 +14,6 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 
 
-def taskcount(request, args, **kwargs):
-    Task = Task.objects.get.all()
-    usr = request.user
-    today = datetime.date.today()
-    pass
-
-
 def index_app(request):
     if request.user.is_authenticated:
         return redirect('task/')
